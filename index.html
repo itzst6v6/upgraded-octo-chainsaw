@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Click to Play</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            cursor: pointer;
+            font-family: sans-serif;
+        }
+
+        /* Initial glowing state */
+        .background {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #0a0a16;
+            transition: background 0.5s ease;
+            
+            /* Radial glow effect */
+            background: radial-gradient(circle, #2a1b4e 0%, #0a0a16 70%);
+            animation: pulseGlow 4s infinite alternate;
+        }
+
+        /* Pulsing animation for the glow */
+        @keyframes pulseGlow {
+            0% {
+                background: radial-gradient(circle, #2a1b4e 0%, #0a0a16 70%);
+            }
+            100% {
+                background: radial-gradient(circle, #41297a 0%, #05050b 80%);
+            }
+        }
+
+        /* Overlay text prompting the user */
+        .prompt-text {
+            color: #ffffff;
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.6), 0 0 20px rgba(138, 43, 226, 0.5);
+            animation: textPulse 2s infinite alternate;
+            user-select: none;
+        }
+
+        @keyframes textPulse {
+            0% { opacity: 0.6; }
+            100% { opacity: 1; }
+        }
+
+        /* White screen state after click */
+        .background.activated {
+            background: #ffffff !important;
+            animation: none;
+        }
+
+        .background.activated .prompt-text {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="background" id="wrapper">
+        <div class="prompt-text">Click Anywhere</div>
+    </div>
+
+    <audio id="bg-audio" src="music.mp3" loop></audio>
+
+    <script>
+        const wrapper = document.getElementById('wrapper');
+        const audio = document.getElementById('bg-audio');
+
+        wrapper.addEventListener('click', () => {
+            // Switch background to solid white and remove animations
+            wrapper.classList.add('activated');
+            
+            // Play the looping audio
+            audio.play().catch(error => {
+                console.log("Audio playback failed or was interrupted:", error);
+            });
+        });
+    </script>
+</body>
+</html>
